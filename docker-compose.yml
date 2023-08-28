@@ -1,0 +1,20 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: webscraper:latest
+    ports:
+      - "25041:25041"
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:25041/api/keywords/view"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+         - internal_network
+networks:
+     internal_network:
+       external: true
